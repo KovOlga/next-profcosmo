@@ -1,6 +1,6 @@
 import { IToDoItem } from "@/types/data";
 import { mockTodos } from "@/utils/mock";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
@@ -15,10 +15,6 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    setAuthState: (state, action: PayloadAction<boolean>) => {
-      //   state.authState = action.payload;
-      return initialState;
-    },
     logout: () => {
       return initialState;
     },
@@ -26,6 +22,7 @@ export const todosSlice = createSlice({
       const newTodo: IToDoItem = {
         ...action.payload,
         status: "не выполнена",
+        uniqueId: nanoid(),
         id: state.todos.length,
       };
       state.todos.unshift(newTodo);
@@ -33,5 +30,5 @@ export const todosSlice = createSlice({
   },
 });
 
-export const { setAuthState, logout, addTodo } = todosSlice.actions;
+export const { logout, addTodo } = todosSlice.actions;
 export const todosReducer = todosSlice.reducer;

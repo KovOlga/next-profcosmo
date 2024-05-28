@@ -1,7 +1,9 @@
 import { IToDoItem } from "@/types/data";
+import { nanoid } from "@reduxjs/toolkit";
 
 export const mockTodos: IToDoItem[] = [
   {
+    uniqueId: nanoid(),
     id: 1,
     title: "todo1",
     email: "user@user.com",
@@ -9,6 +11,7 @@ export const mockTodos: IToDoItem[] = [
     status: "status",
   },
   {
+    uniqueId: nanoid(),
     id: 2,
     title: "todo2",
     email: "user@user.com",
@@ -16,6 +19,7 @@ export const mockTodos: IToDoItem[] = [
     status: "status",
   },
   {
+    uniqueId: nanoid(),
     id: 3,
     title: "todo3",
     email: "user@user.com",
@@ -23,6 +27,7 @@ export const mockTodos: IToDoItem[] = [
     status: "status",
   },
   {
+    uniqueId: nanoid(),
     id: 4,
     title: "todo4",
     email: "user@user.com",
@@ -30,6 +35,7 @@ export const mockTodos: IToDoItem[] = [
     status: "status",
   },
   {
+    uniqueId: nanoid(),
     id: 5,
     title: "todo5",
     email: "user@user.com",
