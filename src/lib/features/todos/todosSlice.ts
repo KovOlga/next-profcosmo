@@ -1,14 +1,16 @@
-import { IToDoItem } from "@/types/data";
-import { mockTodos } from "@/utils/mock";
+import { IToDoItem, IUser } from "@/types/data";
+import { mockTodos, mockUsers } from "@/utils/mock";
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
   todos: IToDoItem[];
+  users: IUser[];
 }
 
 const initialState: IAuthState = {
   todos: mockTodos,
+  users: mockUsers,
 };
 
 export const todosSlice = createSlice({

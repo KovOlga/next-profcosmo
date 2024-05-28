@@ -1,5 +1,10 @@
-import { IToDoItem } from "@/types/data";
+import { IToDoItem, IUser } from "@/types/data";
 import { nanoid } from "@reduxjs/toolkit";
+
+export const mockUsers: IUser[] = [
+  { email: "user@user.com", password: 12345 },
+  { email: "admin@admin.com", password: 67890 },
+];
 
 export const mockTodos: IToDoItem[] = [
   {

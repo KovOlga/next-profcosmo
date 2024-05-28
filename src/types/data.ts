@@ -6,3 +6,8 @@ export interface IToDoItem {
   body: string;
   status: string;
 }
+
+export interface IUser {
+  email: string;
+  password: number;
+}
