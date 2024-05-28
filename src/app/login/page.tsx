@@ -1,6 +1,7 @@
 "use client";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import styles from "./page.module.scss";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [form, setForm] = useState({
@@ -38,9 +39,11 @@ export default function LoginPage() {
           value={form.password}
           onChange={handleInputChange}
         />
-        <button type="submit" className={styles.button}>
-          Login
-        </button>
+        <Link href="/" className={styles.link}>
+          <button type="submit" className={styles.button}>
+            Login
+          </button>
+        </Link>
       </form>
     </main>
   );

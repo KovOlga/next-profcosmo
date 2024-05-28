@@ -5,6 +5,7 @@ import { RootState } from "@/lib/store";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { addTodo } from "@/lib/features/todos/todosSlice";
 import { Button, Pagination } from "@nextui-org/react";
+import Link from "next/link";
 
 export default function Home() {
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
@@ -34,7 +35,9 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <button className={styles.button}>Logout</button>
+      <Link href="/logout" className={styles.link}>
+        <button className={styles.button}>Logout</button>
+      </Link>
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Добавить задачу</h2>
         <input

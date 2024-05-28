@@ -5,6 +5,10 @@
   margin-top: 70px;
 }
 
+.link {
+  align-self: flex-end;
+}
+
 .form {
   width: 400px;
   display: flex;
@@ -21,7 +25,6 @@
 }
 
 .button {
-  align-self: flex-end;
   padding: 10px 15px;
   background: none;
   color: teal;
