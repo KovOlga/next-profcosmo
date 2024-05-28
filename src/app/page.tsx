@@ -1,45 +1,83 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
+import Pagination from "@/components/pagination";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { IToDoItem } from "@/types/data";
+import { addTodo } from "@/lib/features/todos/todosSlice";
 
 export default function Home() {
+  const todosArr = useAppSelector((state: RootState) => state.todos.todos);
+  const dispatch = useAppDispatch();
+  const [form, setForm] = useState({
+    title: "",
+    email: "",
+    body: "",
+  });
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+  const handleSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    dispatch(addTodo(form));
+  };
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      <button className={styles.button}>Logout</button>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h2>Добавить задачу</h2>
+        <input
+          className={styles.input}
+          type="text"
+          name="title"
+          placeholder="Название задачи"
+          required
+          minLength={3}
+          maxLength={25}
+          value={form.title}
+          onChange={handleInputChange}
         />
-      </div>
+        <input
+          className={styles.input}
+          type="email"
+          placeholder="Email"
+          required
+          name="email"
+          value={form.email}
+          onChange={handleInputChange}
+        />
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Текст задачи"
+          name="body"
+          value={form.body}
+          onChange={handleInputChange}
+        />
+        <button type="submit" className={styles.button}>
+          Добавить
+        </button>
+      </form>
+      <ul className={styles.list}>
+        {todosArr &&
+          todosArr.map((item) => {
+            return (
+              <li className={styles.list__item} key={item.id}>
+                <p>{item.title}</p>
+                <p>{item.body}</p>
+                <p>{item.status}</p>
+                <p>{item.email}</p>
+              </li>
+            );
+          })}
+      </ul>
+      <Pagination pages={3} />
 
-      <div className={styles.grid}>
+      {/* <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           className={styles.card}
@@ -89,7 +127,7 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      </div> */}
     </main>
   );
 }
