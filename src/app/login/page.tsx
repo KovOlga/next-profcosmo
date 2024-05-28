@@ -1,9 +1,10 @@
 "use client";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import styles from "./page.module.scss";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -16,6 +17,7 @@ export default function LoginPage() {
   };
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
+    router.push("/");
   };
   return (
     <main className={styles.main}>
@@ -39,11 +41,9 @@ export default function LoginPage() {
           value={form.password}
           onChange={handleInputChange}
         />
-        <Link href="/" className={styles.link}>
-          <button type="submit" className={styles.button}>
-            Login
-          </button>
-        </Link>
+        <button type="submit" className={styles.button}>
+          Login
+        </button>
       </form>
     </main>
   );
