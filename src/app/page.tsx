@@ -2,9 +2,9 @@
 import styles from "./page.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
-import Pagination from "@/components/pagination";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { addTodo } from "@/lib/features/todos/todosSlice";
+import { Pagination } from "@nextui-org/react";
 
 export default function Home() {
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
@@ -73,7 +73,11 @@ export default function Home() {
             );
           })}
       </ul>
-      <Pagination pages={3} />
+      <Pagination
+        total={Math.ceil(todosArr.length / 3)}
+        initialPage={1}
+        color="success"
+      />
     </main>
   );
 }

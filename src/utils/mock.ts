@@ -42,4 +42,20 @@ export const mockTodos: IToDoItem[] = [
     body: "body5",
     status: "status",
   },
+  {
+    uniqueId: nanoid(),
+    id: 6,
+    title: "todo6",
+    email: "user@user.com",
+    body: "body6",
+    status: "status",
+  },
+  {
+    uniqueId: nanoid(),
+    id: 7,
+    title: "todo7",
+    email: "user@user.com",
+    body: "body7",
+    status: "status",
+  },
 ];
