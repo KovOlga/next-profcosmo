@@ -1,11 +1,12 @@
 "use client";
+import { deleteCookie } from "../actions";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 
 export default function LogoutPage() {
   const router = useRouter();
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
+    deleteCookie();
     router.push("/login");
   };
   return (

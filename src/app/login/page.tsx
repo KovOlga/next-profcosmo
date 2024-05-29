@@ -2,6 +2,7 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
+import { setCookie } from "../actions";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function LoginPage() {
   };
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    localStorage.setItem("loggedIn", "true");
+    setCookie();
     router.push("/");
   };
   return (
