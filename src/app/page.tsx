@@ -6,8 +6,10 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { addTodo } from "@/lib/features/todos/todosSlice";
 import { Button, Pagination } from "@nextui-org/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,6 +19,10 @@ export default function Home() {
     email: "",
     body: "",
   });
+
+  useEffect(() => {
+    router.push("/");
+  }, []);
 
   useEffect(() => {
     const updateVisible = [...todosArr].splice((currentPage - 1) * 3, 3);

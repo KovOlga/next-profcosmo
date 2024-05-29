@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import { setCookie } from "../actions";
@@ -11,6 +11,10 @@ export default function LoginPage() {
     password: "",
   });
 
+  useEffect(() => {
+    router.push("/login");
+  }, []);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -19,7 +23,7 @@ export default function LoginPage() {
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     setCookie();
-    router.push("/");
+    router.replace("/");
   };
   return (
     <main className={styles.main}>
