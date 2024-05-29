@@ -7,7 +7,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import { Roles } from "@/types/data";
 
-const regexp = /^[1-9]+$/gm;
+const regexp = /^[0-9]+$/gm;
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,14 +25,22 @@ export default function LoginPage() {
   }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(regexp) || e.target.value === "") {
+    if (e.target.name === "email") {
       setError(false);
-      setInputError(false);
       setForm((prev) => {
         return { ...prev, [e.target.name]: e.target.value };
       });
-    } else {
-      setInputError(true);
+    }
+    if (e.target.name === "password") {
+      if (e.target.value.match(regexp) || e.target.value === "") {
+        setError(false);
+        setInputError(false);
+        setForm((prev) => {
+          return { ...prev, [e.target.name]: e.target.value };
+        });
+      } else {
+        setInputError(true);
+      }
     }
   };
 
