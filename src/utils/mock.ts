@@ -63,4 +63,12 @@ export const mockTodos: IToDoItem[] = [
     body: "body7",
     status: "status",
   },
+  {
+    uniqueId: nanoid(),
+    id: 8,
+    title: "test1",
+    email: "user@user.com",
+    body: "test2",
+    status: "test3",
+  },
 ];

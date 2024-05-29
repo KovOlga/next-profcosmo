@@ -5,6 +5,7 @@ import { RootState } from "@/lib/store";
 import {
   ChangeEvent,
   SyntheticEvent,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -27,6 +28,13 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { IToDoItem } from "@/types/data";
+
+const columnsToSearch = [
+  { key: "title", label: "title" },
+  { key: "email", label: "email" },
+  { key: "status", label: "status" },
+];
 
 export default function Home() {
   const router = useRouter();
@@ -44,6 +52,9 @@ export default function Home() {
     column: "id",
     direction: "ascending",
   });
+  const [selectValue, setSelectValue] = useState("");
+  const [searchValue, setsearchValue] = useState("");
+  const [filteredToDos, setfilteredToDos] = useState(todosArr);
 
   useEffect(() => {
     router.push("/");
@@ -63,8 +74,8 @@ export default function Home() {
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return todosArr.slice(start, end);
-  }, [currentPage, todosArr]);
+    return filteredToDos.slice(start, end);
+  }, [currentPage, filteredToDos, rowsPerPage]);
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
@@ -76,15 +87,37 @@ export default function Home() {
     });
   }, [sortDescriptor, items]);
 
-  const columnsToSearch = [
-    { key: "title", label: "title" },
-    { key: "email", label: "email" },
-    { key: "status", label: "status" },
-  ];
-  const [value, setValue] = useState("");
-  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
+  const filterTable = (selectValue: keyof IToDoItem) => {
+    let filteredArr = [...todosArr];
+    if (searchValue && selectValue) {
+      filteredArr = filteredArr.filter((todo) =>
+        todo[selectValue].toString().includes(searchValue.toLowerCase())
+      );
+    }
+    setfilteredToDos(filteredArr);
+
+    return filteredArr;
   };
+
+  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectValue(e.target.value);
+    filterTable(e.target.value);
+  };
+
+  const onSearchChange = useCallback((value: string) => {
+    if (value) {
+      setsearchValue(value);
+      setCurrentPage(1);
+    } else {
+      setsearchValue("");
+    }
+  }, []);
+
+  const onClear = useCallback(() => {
+    setsearchValue("");
+    setCurrentPage(1);
+  }, []);
+
   return (
     <main className={styles.main}>
       <Link href="/logout" className={styles.link}>
@@ -126,20 +159,22 @@ export default function Home() {
       </form>
       <div className={styles.search}>
         <Input
+          label="Search Input"
           isClearable
           className="w-full sm:max-w-[44%]"
           placeholder="Search by ..."
-          // value={filterValue}
-          // onClear={() => onClear()}
-          // onValueChange={onSearchChange}
+          value={searchValue}
+          onClear={() => onClear()}
+          onValueChange={onSearchChange}
         />
         <Select
           color="success"
           items={columnsToSearch}
           label="Search Column"
           placeholder="По каком столбцу искать"
-          selectedKeys={[value]}
+          selectedKeys={[selectValue]}
           onChange={handleSelectionChange}
+          defaultSelectedKeys={["title"]}
         >
           {(animal) => <SelectItem key={animal.key}>{animal.label}</SelectItem>}
         </Select>
