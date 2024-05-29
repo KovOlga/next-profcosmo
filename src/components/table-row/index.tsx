@@ -1,16 +1,14 @@
 import { Checkbox } from "@nextui-org/react";
 import { FC, useState } from "react";
-import { IToDoItem, ToDoStatus } from "@/types/data";
+import { IToDoItem, Roles, ToDoStatus } from "@/types/data";
 import ToggableBtn from "../toggable-btn";
-import { PressEvent } from "@react-types/shared";
 import styles from "./styles.module.scss";
 import { useAppDispatch } from "@/lib/hooks";
 import { updateTodo } from "@/lib/features/todos/todosSlice";
-
-interface row {
+interface TableRowProps {
   item: IToDoItem;
 }
-const TableRow: FC<row> = ({ item }) => {
+const TableRow: FC<TableRowProps> = ({ item }) => {
   const dispatch = useAppDispatch();
   const [isEditState, setIsEditState] = useState(true);
   const [textarea, setTextarea] = useState(item.body);
@@ -28,6 +26,8 @@ const TableRow: FC<row> = ({ item }) => {
       })
     );
   };
+
+  const role = localStorage.getItem("role");
 
   return (
     <li className={styles.item}>
@@ -59,12 +59,14 @@ const TableRow: FC<row> = ({ item }) => {
         )}
       </p>
       <p>{item.email}</p>
-      <ToggableBtn
-        isEditState={isEditState}
-        setIsEditState={setIsEditState}
-        handleUpdateToDo={handleSave}
-        id={item.id}
-      />
+      {role === Roles.ADMIN && (
+        <ToggableBtn
+          isEditState={isEditState}
+          setIsEditState={setIsEditState}
+          handleUpdateToDo={handleSave}
+          id={item.id}
+        />
+      )}
     </li>
   );
 };

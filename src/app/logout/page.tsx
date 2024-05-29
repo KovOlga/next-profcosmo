@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { deleteCookie } from "../actions";
+import { deleteCookie } from "../../utils/actions";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 

@@ -2,9 +2,10 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
-import { setCookie } from "../actions";
+import { setCookie } from "../../utils/actions";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
+import { Roles } from "@/types/data";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,6 +43,11 @@ export default function LoginPage() {
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     if (verifyUserPass()) {
+      if (form.email.includes(Roles.USER)) {
+        localStorage.setItem("role", Roles.USER);
+      } else {
+        localStorage.setItem("role", Roles.ADMIN);
+      }
       setCookie();
       router.replace("/");
     } else {

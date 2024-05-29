@@ -16,3 +16,8 @@ export enum ToDoStatus {
   DONE = "выполнена",
   NOTDONE = "не выполнена",
 }
+
+export enum Roles {
+  ADMIN = "admin",
+  USER = "user",
+}
