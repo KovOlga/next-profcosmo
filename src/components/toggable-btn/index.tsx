@@ -1,40 +1,35 @@
 import { Button } from "@nextui-org/react";
-import { PressEvent } from "@react-types/shared";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 interface ToggableBtnProps {
-  handleEditToDo: (id: number) => void;
   handleUpdateToDo: () => void;
   id: number;
+  isEditState: boolean;
+  setIsEditState: any;
 }
 
 const ToggableBtn: FC<ToggableBtnProps> = ({
-  handleEditToDo,
   handleUpdateToDo,
+  isEditState,
+  setIsEditState,
   id,
 }) => {
-  const [edit, setEdit] = useState(true);
-  const handleEdit = (e: PressEvent) => {
-    console.log("e", e);
-    setEdit(false);
-    handleEditToDo(id);
-  };
-  const handleSave = () => {
-    setEdit(true);
-    handleUpdateToDo();
-  };
   return (
     <>
-      {edit ? (
+      {isEditState ? (
         <Button
           id={id.toString()}
           color="primary"
-          onPress={(e) => handleEdit(e)}
+          onPress={() => setIsEditState(false)}
         >
           Редактировать
         </Button>
       ) : (
-        <Button id={id.toString()} color="success" onPress={() => handleSave()}>
+        <Button
+          id={id.toString()}
+          color="success"
+          onPress={() => handleUpdateToDo()}
+        >
           сохранить
         </Button>
       )}

@@ -29,8 +29,16 @@ export const todosSlice = createSlice({
       };
       state.todos.unshift(newTodo);
     },
+    updateTodo: (state, action: PayloadAction<IToDoItem>) => {
+      state.todos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return action.payload;
+        }
+        return todo;
+      });
+    },
   },
 });
 
-export const { logout, addTodo } = todosSlice.actions;
+export const { logout, addTodo, updateTodo } = todosSlice.actions;
 export const todosReducer = todosSlice.reducer;

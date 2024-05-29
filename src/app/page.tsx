@@ -18,24 +18,20 @@ import {
   Select,
   SelectItem,
   SortDescriptor,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  getKeyValue,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IToDoItem } from "@/types/data";
 import ToggableBtn from "@/components/toggable-btn";
+import TableRow from "@/components/table-row";
 
 const columnsToSearch = [
   { key: "title", label: "title" },
   { key: "email", label: "email" },
   { key: "status", label: "status" },
 ];
+
+const tableHeaders = ["id", "title", "body", "status", "email"];
 
 export default function Home() {
   const router = useRouter();
@@ -56,7 +52,6 @@ export default function Home() {
   const [selectValue, setSelectValue] = useState("");
   const [searchValue, setsearchValue] = useState("");
   const [filteredToDos, setfilteredToDos] = useState(todosArr);
-  const [currentEditingId, setcurrentEditingId] = useState<number | null>(null);
 
   useEffect(() => {
     router.push("/");
@@ -124,15 +119,6 @@ export default function Home() {
     setCurrentPage(1);
   }, []);
 
-  const handleEditToDo = (id: number) => {
-    setcurrentEditingId(id);
-  };
-
-  const handleUpdateToDo = () => {
-    console.log("save");
-    setcurrentEditingId(null);
-  };
-
   return (
     <main className={styles.main}>
       <Link href="/logout" className={styles.link}>
@@ -194,80 +180,48 @@ export default function Home() {
         </Select>
       </div>
       {todosArr && (
-        <Table
-          aria-label="table"
-          sortDescriptor={sortDescriptor}
-          onSortChange={setSortDescriptor}
-          classNames={{
-            table: "min-h-[400px]",
-          }}
-          bottomContent={
-            <div className={styles.pagination}>
-              <Pagination
-                total={pages}
-                color="secondary"
-                page={currentPage}
-                onChange={setCurrentPage}
-              />
-              <div className={styles.pagination__controls}>
-                <Button
-                  color="secondary"
-                  onPress={() => {
-                    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
-                  }}
-                >
-                  Previous
-                </Button>
-                <Button
-                  color="secondary"
-                  onPress={() =>
-                    setCurrentPage((prev) =>
-                      prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
-                    )
-                  }
-                >
-                  Next
-                </Button>
-              </div>
+        <div className={styles.content}>
+          <div className={styles.table}>
+            <div className={styles.table__headers}>
+              {tableHeaders.map((header) => {
+                return <p key={header}>{header}</p>;
+              })}
             </div>
-          }
-        >
-          <TableHeader>
-            <TableColumn key="id" allowsSorting>
-              id
-            </TableColumn>
-            <TableColumn key="title">title</TableColumn>
-            <TableColumn key="body">body</TableColumn>
-            <TableColumn key="status">status</TableColumn>
-            <TableColumn key="email">email</TableColumn>
-            <TableColumn key="actions">actions</TableColumn>
-          </TableHeader>
-          <TableBody items={sortedItems}>
-            {(item) => (
-              <TableRow key={item.title}>
-                {(columnKey) =>
-                  columnKey !== "actions" ? (
-                    <TableCell>
-                      {item.id === currentEditingId ? (
-                        <p>ccd</p>
-                      ) : (
-                        getKeyValue(item, columnKey)
-                      )}
-                    </TableCell>
-                  ) : (
-                    <TableCell>
-                      <ToggableBtn
-                        handleEditToDo={handleEditToDo}
-                        handleUpdateToDo={handleUpdateToDo}
-                        id={item.id}
-                      />
-                    </TableCell>
+            <div className={styles.table__body}>
+              {sortedItems.map((todo) => {
+                return <TableRow key={todo.uniqueId} item={todo} />;
+              })}
+            </div>
+          </div>
+          <div className={styles.pagination}>
+            <Pagination
+              total={pages}
+              color="secondary"
+              page={currentPage}
+              onChange={setCurrentPage}
+            />
+            <div className={styles.pagination__controls}>
+              <Button
+                color="secondary"
+                onPress={() => {
+                  setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+                }}
+              >
+                Previous
+              </Button>
+              <Button
+                color="secondary"
+                onPress={() =>
+                  setCurrentPage((prev) =>
+                    prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
                   )
                 }
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );
