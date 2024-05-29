@@ -2,32 +2,49 @@
 import styles from "./page.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { addTodo } from "@/lib/features/todos/todosSlice";
-import { Button, Pagination } from "@nextui-org/react";
+import {
+  Button,
+  Pagination,
+  SortDescriptor,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  getKeyValue,
+} from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const todosArr = useAppSelector((state: RootState) => state.todos.todos);
   const dispatch = useAppDispatch();
+  const todosArr = useAppSelector((state: RootState) => state.todos.todos);
+  const rowsPerPage = 3;
+  const pages = Math.ceil(todosArr.length / rowsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
-  const [visibleTodos, setVisibleTodos] = useState(todosArr.slice(0, 3));
   const [form, setForm] = useState({
     title: "",
     email: "",
     body: "",
   });
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: "id",
+    direction: "ascending",
+  });
 
   useEffect(() => {
     router.push("/");
   }, []);
-
-  useEffect(() => {
-    const updateVisible = [...todosArr].splice((currentPage - 1) * 3, 3);
-    setVisibleTodos(updateVisible);
-  }, [currentPage, todosArr]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => {
@@ -38,6 +55,23 @@ export default function Home() {
     event.preventDefault();
     dispatch(addTodo(form));
   };
+
+  const items = useMemo(() => {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return todosArr.slice(start, end);
+  }, [currentPage, todosArr]);
+
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      const first = a.id;
+      const second = b.id;
+      const cmp = first < second ? -1 : first > second ? 1 : 0;
+
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+    });
+  }, [sortDescriptor, items]);
 
   return (
     <main className={styles.main}>
@@ -78,50 +112,68 @@ export default function Home() {
           Добавить
         </button>
       </form>
-      <Pagination
-        total={Math.ceil(todosArr.length / 3)}
-        color="secondary"
-        page={currentPage}
-        onChange={setCurrentPage}
-      />
-      <div className="flex gap-2">
-        <Button
-          size="sm"
-          variant="flat"
-          color="secondary"
-          onPress={() => {
-            setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+      {todosArr && (
+        <Table
+          sortDescriptor={sortDescriptor}
+          onSortChange={setSortDescriptor}
+          classNames={{
+            table: "min-h-[400px]",
           }}
-        >
-          Previous
-        </Button>
-        <Button
-          size="sm"
-          variant="flat"
-          color="secondary"
-          onPress={() =>
-            setCurrentPage((prev) =>
-              prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
-            )
+          bottomContent={
+            <div className={styles.pagination}>
+              <Pagination
+                total={pages}
+                color="secondary"
+                page={currentPage}
+                onChange={setCurrentPage}
+              />
+              <div className={styles.pagination__controls}>
+                <Button
+                  size="sm"
+                  variant="flat"
+                  color="secondary"
+                  onPress={() => {
+                    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+                  }}
+                >
+                  Previous
+                </Button>
+                <Button
+                  size="sm"
+                  variant="flat"
+                  color="secondary"
+                  onPress={() =>
+                    setCurrentPage((prev) =>
+                      prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
+                    )
+                  }
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
           }
         >
-          Next
-        </Button>
-      </div>
-      <ul className={styles.list}>
-        {todosArr &&
-          visibleTodos &&
-          visibleTodos.map((item) => {
-            return (
-              <li className={styles.list__item} key={item.uniqueId}>
-                <p>{item.title}</p>
-                <p>{item.body}</p>
-                <p>{item.status}</p>
-                <p>{item.email}</p>
-              </li>
-            );
-          })}
-      </ul>
+          <TableHeader>
+            <TableColumn key="id" allowsSorting>
+              id
+            </TableColumn>
+            <TableColumn key="title">title</TableColumn>
+            <TableColumn key="body">body</TableColumn>
+            <TableColumn key="status">status</TableColumn>
+            <TableColumn key="email">email</TableColumn>
+          </TableHeader>
+          <TableBody items={sortedItems}>
+            {(item) => (
+              <TableRow key={item.title}>
+                {(columnKey) => (
+                  <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </main>
   );
 }

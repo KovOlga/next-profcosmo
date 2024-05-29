@@ -46,3 +46,16 @@
   color: teal;
   border: 1px solid teal;
 }
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.pagination__controls {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
