@@ -21,7 +21,7 @@
 .search {
   display: flex;
   flex-direction: row;
-  width: 500px;
+  width: 700px;
   gap: 15px;
 }
 

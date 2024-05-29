@@ -1,4 +1,4 @@
-import { IToDoItem, IUser } from "@/types/data";
+import { IToDoItem, IUser, ToDoStatus } from "@/types/data";
 import { mockTodos, mockUsers } from "@/utils/mock";
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -23,7 +23,7 @@ export const todosSlice = createSlice({
     addTodo: (state, action: PayloadAction<any>) => {
       const newTodo: IToDoItem = {
         ...action.payload,
-        status: "не выполнена",
+        status: ToDoStatus.NOTDONE,
         uniqueId: nanoid(),
         id: state.todos.length,
       };

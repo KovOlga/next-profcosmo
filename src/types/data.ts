@@ -4,10 +4,15 @@ export interface IToDoItem {
   title: string;
   email: string;
   body: string;
-  status: string;
+  status: ToDoStatus;
 }
 
 export interface IUser {
   email: string;
   password: number;
+}
+
+export enum ToDoStatus {
+  DONE = "выполнена",
+  NOTDONE = "не выполнена",
 }

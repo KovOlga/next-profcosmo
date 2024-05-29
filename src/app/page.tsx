@@ -29,6 +29,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IToDoItem } from "@/types/data";
+import ToggableBtn from "@/components/toggable-btn";
 
 const columnsToSearch = [
   { key: "title", label: "title" },
@@ -55,6 +56,7 @@ export default function Home() {
   const [selectValue, setSelectValue] = useState("");
   const [searchValue, setsearchValue] = useState("");
   const [filteredToDos, setfilteredToDos] = useState(todosArr);
+  const [currentEditingId, setcurrentEditingId] = useState<number | null>(null);
 
   useEffect(() => {
     router.push("/");
@@ -116,9 +118,21 @@ export default function Home() {
   }, []);
 
   const onClear = useCallback(() => {
+    setSelectValue("");
+    setfilteredToDos(todosArr);
     setsearchValue("");
     setCurrentPage(1);
   }, []);
+
+  const handleEditToDo = (id: number) => {
+    console.log("edit");
+    setcurrentEditingId(id);
+  };
+
+  const handleUpdateToDo = () => {
+    console.log("save");
+    setcurrentEditingId(null);
+  };
 
   return (
     <main className={styles.main}>
@@ -163,8 +177,7 @@ export default function Home() {
         <Input
           label="Search Input"
           isClearable
-          className="w-full sm:max-w-[44%]"
-          placeholder="Search by ..."
+          placeholder="Введите и выберете столбец поиска"
           value={searchValue}
           onClear={() => onClear()}
           onValueChange={onSearchChange}
@@ -199,8 +212,6 @@ export default function Home() {
               />
               <div className={styles.pagination__controls}>
                 <Button
-                  size="sm"
-                  variant="flat"
                   color="secondary"
                   onPress={() => {
                     setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
@@ -209,8 +220,6 @@ export default function Home() {
                   Previous
                 </Button>
                 <Button
-                  size="sm"
-                  variant="flat"
                   color="secondary"
                   onPress={() =>
                     setCurrentPage((prev) =>
@@ -232,13 +241,26 @@ export default function Home() {
             <TableColumn key="body">body</TableColumn>
             <TableColumn key="status">status</TableColumn>
             <TableColumn key="email">email</TableColumn>
+            <TableColumn key="actions">actions</TableColumn>
           </TableHeader>
           <TableBody items={sortedItems}>
             {(item) => (
               <TableRow key={item.title}>
-                {(columnKey) => (
-                  <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                )}
+                {(columnKey) =>
+                  columnKey !== "actions" ? (
+                    <TableCell>
+                      {item.id === currentEditingId ? (
+                        <p>ccd</p>
+                      ) : (
+                        getKeyValue(item, columnKey)
+                      )}
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      <ToggableBtn />
+                    </TableCell>
+                  )
+                }
               </TableRow>
             )}
           </TableBody>

@@ -1,4 +1,4 @@
-import { IToDoItem, IUser } from "@/types/data";
+import { IToDoItem, IUser, ToDoStatus } from "@/types/data";
 import { nanoid } from "@reduxjs/toolkit";
 
 export const mockUsers: IUser[] = [
@@ -13,7 +13,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo1",
     email: "user@user.com",
     body: "body1",
-    status: "status",
+    status: ToDoStatus.NOTDONE,
   },
   {
     uniqueId: nanoid(),
@@ -21,7 +21,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo2",
     email: "user@user.com",
     body: "body2",
-    status: "status",
+    status: ToDoStatus.NOTDONE,
   },
   {
     uniqueId: nanoid(),
@@ -29,7 +29,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo3",
     email: "user@user.com",
     body: "body3",
-    status: "status",
+    status: ToDoStatus.DONE,
   },
   {
     uniqueId: nanoid(),
@@ -37,7 +37,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo4",
     email: "user@user.com",
     body: "body4",
-    status: "status",
+    status: ToDoStatus.NOTDONE,
   },
   {
     uniqueId: nanoid(),
@@ -45,7 +45,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo5",
     email: "user@user.com",
     body: "body5",
-    status: "status",
+    status: ToDoStatus.DONE,
   },
   {
     uniqueId: nanoid(),
@@ -53,7 +53,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo6",
     email: "user@user.com",
     body: "body6",
-    status: "status",
+    status: ToDoStatus.NOTDONE,
   },
   {
     uniqueId: nanoid(),
@@ -61,7 +61,7 @@ export const mockTodos: IToDoItem[] = [
     title: "todo7",
     email: "user@user.com",
     body: "body7",
-    status: "status",
+    status: ToDoStatus.DONE,
   },
   {
     uniqueId: nanoid(),
@@ -69,6 +69,6 @@ export const mockTodos: IToDoItem[] = [
     title: "test1",
     email: "user@user.com",
     body: "test2",
-    status: "test3",
+    status: ToDoStatus.DONE,
   },
 ];
