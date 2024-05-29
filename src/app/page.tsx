@@ -23,12 +23,12 @@ import { IToDoItem } from "@/types/data";
 import TableRow from "@/components/table-row";
 
 const columnsToSearch = [
-  { key: "title", label: "title" },
+  { key: "title", label: "Название" },
   { key: "email", label: "email" },
-  { key: "status", label: "status" },
+  { key: "status", label: "Статус" },
 ];
 
-const tableHeaders = ["id", "title", "body", "status", "email"];
+const tableHeaders = ["id", "Название", "Текст", "Статус", "email", ""];
 
 export default function Home() {
   const router = useRouter();
@@ -177,53 +177,51 @@ export default function Home() {
           {(animal) => <SelectItem key={animal.key}>{animal.label}</SelectItem>}
         </Select>
       </div>
-      <Button color="success" size="sm" onPress={() => sortTable()}>
+      <Button color="success" size="md" onPress={() => sortTable()}>
         Сортировать по id
       </Button>
       {todosArr && (
         <div className={styles.content}>
           <div className={styles.table}>
-            <div className={styles.table__headers}>
-              {tableHeaders.map((header) => {
-                return <p key={header}>{header}</p>;
-              })}
-            </div>
+            {tableHeaders.map((header) => {
+              return <p key={header}>{header}</p>;
+            })}
             <div className={styles.table__body}>
               {visibleTodos.map((todo) => {
                 return <TableRow key={todo.uniqueId} item={todo} />;
               })}
             </div>
           </div>
-          <div className={styles.pagination}>
-            <Pagination
-              total={pages}
-              color="secondary"
-              page={currentPage}
-              onChange={setCurrentPage}
-            />
-            <div className={styles.pagination__controls}>
-              <Button
-                color="secondary"
-                onPress={() => {
-                  setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
-                }}
-              >
-                Previous
-              </Button>
-              <Button
-                color="secondary"
-                onPress={() =>
-                  setCurrentPage((prev) =>
-                    prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
-                  )
-                }
-              >
-                Next
-              </Button>
-            </div>
-          </div>
         </div>
       )}
+      <div className={styles.pagination}>
+        <Pagination
+          total={pages}
+          color="secondary"
+          page={currentPage}
+          onChange={setCurrentPage}
+        />
+        <div className={styles.pagination__controls}>
+          <Button
+            color="secondary"
+            onPress={() => {
+              setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            color="secondary"
+            onPress={() =>
+              setCurrentPage((prev) =>
+                prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
+              )
+            }
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </main>
   );
 }

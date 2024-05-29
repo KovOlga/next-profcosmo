@@ -1,6 +1,10 @@
 .item {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(6, 150px);
+  grid-template-rows: auto;
+  column-gap: 10px;
+}
+
+.textarea {
+  resize: none;
 }
