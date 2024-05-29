@@ -35,7 +35,9 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
   const rowsPerPage = 3;
-  const pages = Math.ceil(todosArr.length / rowsPerPage);
+  const [pages, setPages] = useState<number>(
+    Math.ceil(todosArr.length / rowsPerPage)
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [form, setForm] = useState({
     title: "",
@@ -52,6 +54,10 @@ export default function Home() {
   useEffect(() => {
     router.push("/");
   }, []);
+
+  useEffect(() => {
+    setPages(Math.ceil(todos.length / rowsPerPage));
+  }, [todos]);
 
   useEffect(() => {
     const updateVisible = [...todos].splice((currentPage - 1) * 3, 3);
@@ -87,11 +93,14 @@ export default function Home() {
   const filterTable = (selectValue: string) => {
     let filteredArr = [...todosArr];
     if (searchValue && selectValue) {
-      filteredArr = filteredArr.filter((todo) =>
-        todo[selectValue as keyof IToDoItem]
-          .toString()
-          .includes(searchValue.toLowerCase())
-      );
+      filteredArr = filteredArr.filter((todo) => {
+        return selectValue === "status"
+          ? todo[selectValue as keyof IToDoItem].toString() ===
+              searchValue.toLowerCase()
+          : todo[selectValue as keyof IToDoItem]
+              .toString()
+              .includes(searchValue.toLowerCase());
+      });
     }
     setToDos(filteredArr);
   };
