@@ -125,7 +125,6 @@ export default function Home() {
   }, []);
 
   const handleEditToDo = (id: number) => {
-    console.log("edit");
     setcurrentEditingId(id);
   };
 
@@ -257,7 +256,11 @@ export default function Home() {
                     </TableCell>
                   ) : (
                     <TableCell>
-                      <ToggableBtn />
+                      <ToggableBtn
+                        handleEditToDo={handleEditToDo}
+                        handleUpdateToDo={handleUpdateToDo}
+                        id={item.id}
+                      />
                     </TableCell>
                   )
                 }
