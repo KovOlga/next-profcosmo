@@ -17,6 +17,7 @@ export default function LoginPage() {
   };
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
+    localStorage.setItem("loggedIn", "true");
     router.push("/");
   };
   return (
