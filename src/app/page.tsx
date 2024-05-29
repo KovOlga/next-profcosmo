@@ -12,7 +12,10 @@ import {
 import { addTodo } from "@/lib/features/todos/todosSlice";
 import {
   Button,
+  Input,
   Pagination,
+  Select,
+  SelectItem,
   SortDescriptor,
   Table,
   TableBody,
@@ -73,6 +76,15 @@ export default function Home() {
     });
   }, [sortDescriptor, items]);
 
+  const columnsToSearch = [
+    { key: "title", label: "title" },
+    { key: "email", label: "email" },
+    { key: "status", label: "status" },
+  ];
+  const [value, setValue] = useState("");
+  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setValue(e.target.value);
+  };
   return (
     <main className={styles.main}>
       <Link href="/logout" className={styles.link}>
@@ -112,8 +124,29 @@ export default function Home() {
           Добавить
         </button>
       </form>
+      <div className={styles.search}>
+        <Input
+          isClearable
+          className="w-full sm:max-w-[44%]"
+          placeholder="Search by ..."
+          // value={filterValue}
+          // onClear={() => onClear()}
+          // onValueChange={onSearchChange}
+        />
+        <Select
+          color="success"
+          items={columnsToSearch}
+          label="Search Column"
+          placeholder="По каком столбцу искать"
+          selectedKeys={[value]}
+          onChange={handleSelectionChange}
+        >
+          {(animal) => <SelectItem key={animal.key}>{animal.label}</SelectItem>}
+        </Select>
+      </div>
       {todosArr && (
         <Table
+          aria-label="table"
           sortDescriptor={sortDescriptor}
           onSortChange={setSortDescriptor}
           classNames={{
