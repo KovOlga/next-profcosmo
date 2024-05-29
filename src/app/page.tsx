@@ -56,7 +56,7 @@ export default function Home() {
   useEffect(() => {
     const updateVisible = [...todos].splice((currentPage - 1) * 3, 3);
     setVisibleTodos(updateVisible);
-  }, [currentPage, todosArr, todos]);
+  }, [currentPage, todos]);
 
   useEffect(() => {
     setToDos(todosArr);

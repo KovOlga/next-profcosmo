@@ -30,7 +30,7 @@ export const todosSlice = createSlice({
       state.todos.unshift(newTodo);
     },
     updateTodo: (state, action: PayloadAction<IToDoItem>) => {
-      state.todos.map((todo) => {
+      state.todos = state.todos.map((todo) => {
         if (todo.id === action.payload.id) {
           return action.payload;
         }
