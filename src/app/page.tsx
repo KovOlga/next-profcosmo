@@ -87,11 +87,13 @@ export default function Home() {
     });
   }, [sortDescriptor, items]);
 
-  const filterTable = (selectValue: keyof IToDoItem) => {
+  const filterTable = (selectValue: string) => {
     let filteredArr = [...todosArr];
     if (searchValue && selectValue) {
       filteredArr = filteredArr.filter((todo) =>
-        todo[selectValue].toString().includes(searchValue.toLowerCase())
+        todo[selectValue as keyof IToDoItem]
+          .toString()
+          .includes(searchValue.toLowerCase())
       );
     }
     setfilteredToDos(filteredArr);
