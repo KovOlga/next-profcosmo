@@ -7,7 +7,6 @@ import {
   SyntheticEvent,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { addTodo } from "@/lib/features/todos/todosSlice";
@@ -17,12 +16,10 @@ import {
   Pagination,
   Select,
   SelectItem,
-  SortDescriptor,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IToDoItem } from "@/types/data";
-import ToggableBtn from "@/components/toggable-btn";
 import TableRow from "@/components/table-row";
 
 const columnsToSearch = [
@@ -45,17 +42,25 @@ export default function Home() {
     email: "",
     body: "",
   });
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "id",
-    direction: "ascending",
-  });
+  const [sortAscDesc, setSortAscDesc] = useState<boolean>(false);
   const [selectValue, setSelectValue] = useState("");
   const [searchValue, setsearchValue] = useState("");
-  const [filteredToDos, setfilteredToDos] = useState(todosArr);
+
+  const [todos, setToDos] = useState(todosArr);
+  const [visibleTodos, setVisibleTodos] = useState(todosArr.slice(0, 3));
 
   useEffect(() => {
     router.push("/");
   }, []);
+
+  useEffect(() => {
+    const updateVisible = [...todos].splice((currentPage - 1) * 3, 3);
+    setVisibleTodos(updateVisible);
+  }, [currentPage, todosArr, todos]);
+
+  useEffect(() => {
+    setToDos(todosArr);
+  }, [todosArr]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => {
@@ -67,22 +72,17 @@ export default function Home() {
     dispatch(addTodo(form));
   };
 
-  const items = useMemo(() => {
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return filteredToDos.slice(start, end);
-  }, [currentPage, filteredToDos, rowsPerPage]);
-
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a, b) => {
+  const sortTable = () => {
+    setSortAscDesc(!sortAscDesc);
+    const sortedToDos = [...todos].sort((a, b) => {
       const first = a.id;
       const second = b.id;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      return !sortAscDesc ? -cmp : cmp;
     });
-  }, [sortDescriptor, items]);
+    setToDos(sortedToDos);
+  };
 
   const filterTable = (selectValue: string) => {
     let filteredArr = [...todosArr];
@@ -93,9 +93,7 @@ export default function Home() {
           .includes(searchValue.toLowerCase())
       );
     }
-    setfilteredToDos(filteredArr);
-
-    return filteredArr;
+    setToDos(filteredArr);
   };
 
   const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -114,7 +112,7 @@ export default function Home() {
 
   const onClear = useCallback(() => {
     setSelectValue("");
-    setfilteredToDos(todosArr);
+    setToDos(todosArr);
     setsearchValue("");
     setCurrentPage(1);
   }, []);
@@ -179,6 +177,9 @@ export default function Home() {
           {(animal) => <SelectItem key={animal.key}>{animal.label}</SelectItem>}
         </Select>
       </div>
+      <Button color="success" size="sm" onPress={() => sortTable()}>
+        Сортировать по id
+      </Button>
       {todosArr && (
         <div className={styles.content}>
           <div className={styles.table}>
@@ -188,7 +189,7 @@ export default function Home() {
               })}
             </div>
             <div className={styles.table__body}>
-              {sortedItems.map((todo) => {
+              {visibleTodos.map((todo) => {
                 return <TableRow key={todo.uniqueId} item={todo} />;
               })}
             </div>

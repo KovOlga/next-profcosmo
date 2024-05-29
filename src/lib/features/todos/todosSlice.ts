@@ -25,7 +25,7 @@ export const todosSlice = createSlice({
         ...action.payload,
         status: ToDoStatus.NOTDONE,
         uniqueId: nanoid(),
-        id: state.todos.length,
+        id: state.todos.length + 1,
       };
       state.todos.unshift(newTodo);
     },
