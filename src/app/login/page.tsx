@@ -7,11 +7,14 @@ import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import { Roles } from "@/types/data";
 
+const regexp = /^[1-9]+$/gm;
+
 export default function LoginPage() {
   const router = useRouter();
   const users = useAppSelector((state: RootState) => state.todos.users);
 
   const [error, setError] = useState(false);
+  const [inputError, setInputError] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -22,10 +25,15 @@ export default function LoginPage() {
   }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setError(false);
-    setForm((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    if (e.target.value.match(regexp) || e.target.value === "") {
+      setError(false);
+      setInputError(false);
+      setForm((prev) => {
+        return { ...prev, [e.target.name]: e.target.value };
+      });
+    } else {
+      setInputError(true);
+    }
   };
 
   const verifyUserPass = () => {
@@ -80,6 +88,7 @@ export default function LoginPage() {
           Login
         </button>
         {error && <p>Пароль и email не совпадают или вы не зарегистрированы</p>}
+        {inputError && <p>В пароле должны быть только цифры</p>}
       </form>
     </main>
   );
