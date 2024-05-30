@@ -37,7 +37,7 @@ const TableRow: FC<TableRowProps> = ({ item, role }) => {
         <p>{textarea}</p>
       ) : (
         <textarea
-          className={styles.textarea}
+          className={styles.item__textarea}
           value={textarea}
           onChange={(e) => setTextarea(e.target.value)}
         ></textarea>

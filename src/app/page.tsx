@@ -129,7 +129,7 @@ export default function Home() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Добавить задачу</h2>
         <input
-          className={styles.input}
+          className={styles.form__input}
           type="text"
           name="title"
           placeholder="Название задачи"
@@ -140,7 +140,7 @@ export default function Home() {
           onChange={handleInputChange}
         />
         <input
-          className={styles.input}
+          className={styles.form__input}
           type="email"
           placeholder="Email"
           required
@@ -149,7 +149,7 @@ export default function Home() {
           onChange={handleInputChange}
         />
         <input
-          className={styles.input}
+          className={styles.form__input}
           type="text"
           placeholder="Текст задачи"
           name="body"
@@ -188,17 +188,15 @@ export default function Home() {
         Сортировать по id
       </Button>
       {todosArr && (
-        <div className={styles.content}>
-          <div className={styles.table}>
-            {tableHeaders.map((header) => {
-              return <p key={header}>{header}</p>;
+        <div className={styles.table}>
+          {tableHeaders.map((header) => {
+            return <p key={header}>{header}</p>;
+          })}
+          <ul className={styles.table__body}>
+            {visibleTodos.map((todo) => {
+              return <TableRow key={todo.uniqueId} item={todo} role={role} />;
             })}
-            <ul className={styles.table__body}>
-              {visibleTodos.map((todo) => {
-                return <TableRow key={todo.uniqueId} item={todo} role={role} />;
-              })}
-            </ul>
-          </div>
+          </ul>
         </div>
       )}
       <div className={styles.pagination}>

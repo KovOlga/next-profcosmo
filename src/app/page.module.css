@@ -10,24 +10,12 @@
   align-self: flex-end;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
 .table {
   display: grid;
   grid-template-columns: repeat(6, 150px);
   grid-template-rows: repeat(4, auto);
   row-gap: 20px;
   column-gap: 10px;
-}
-
-.table__headers {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
 }
 
 .table__body {
@@ -44,19 +32,19 @@
   gap: 10px;
 }
 
+.form__input {
+  width: 100%;
+  border: 1px solid teal;
+  padding: 10px 15px;
+  margin-top: 15px;
+}
+
 .search {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 700px;
   gap: 15px;
-}
-
-.input {
-  width: 100%;
-  border: 1px solid teal;
-  padding: 10px 15px;
-  margin-top: 15px;
 }
 
 .button {

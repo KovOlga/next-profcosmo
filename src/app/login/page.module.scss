@@ -5,10 +5,6 @@
   margin-top: 70px;
 }
 
-.link {
-  align-self: flex-end;
-}
-
 .form {
   width: 400px;
   display: flex;
@@ -17,14 +13,14 @@
   gap: 10px;
 }
 
-.input {
+.form__input {
   width: 100%;
   border: 1px solid teal;
   padding: 10px 15px;
   margin-top: 15px;
 }
 
-.button {
+.form__button {
   padding: 10px 15px;
   background: none;
   color: teal;

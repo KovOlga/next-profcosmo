@@ -78,7 +78,7 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Авторизуйтесь</h2>
         <input
-          className={styles.input}
+          className={styles.form__input}
           type="email"
           placeholder="Email"
           required
@@ -87,7 +87,7 @@ export default function LoginPage() {
           onChange={handleInputChange}
         />
         <input
-          className={styles.input}
+          className={styles.form__input}
           type="text"
           name="password"
           placeholder="Password"
@@ -95,7 +95,7 @@ export default function LoginPage() {
           value={form.password}
           onChange={handleInputChange}
         />
-        <button type="submit" className={styles.button}>
+        <button type="submit" className={styles.form__button}>
           Login
         </button>
         {error && <p>Пароль и email не совпадают или вы не зарегистрированы</p>}
