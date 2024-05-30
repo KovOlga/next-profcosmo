@@ -45,6 +45,11 @@ export default function Home() {
     email: "",
     body: "",
   });
+  const [formError, setFormError] = useState({
+    title: false,
+    email: false,
+  });
+
   const [sortAscDesc, setSortAscDesc] = useState<boolean>(false);
   const [selectValue, setSelectValue] = useState("");
   const [searchValue, setsearchValue] = useState("");
@@ -70,13 +75,42 @@ export default function Home() {
   }, [todosArr]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.validity.valid && e.target.name === "title") {
+      setFormError((prev) => {
+        return { ...prev, title: true };
+      });
+    } else if (!e.target.validity.valid && e.target.name === "email") {
+      setFormError((prev) => {
+        return { ...prev, email: true };
+      });
+    } else {
+      setFormError((prev) => {
+        return { ...prev, title: false, email: false };
+      });
+    }
     setForm((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    dispatch(addTodo(form));
+    if (form.title === "") {
+      setFormError((prev) => {
+        return { ...prev, title: true };
+      });
+    } else if (form.email === "") {
+      setFormError((prev) => {
+        return { ...prev, email: true };
+      });
+    } else {
+      dispatch(addTodo(form));
+      setForm({
+        title: "",
+        email: "",
+        body: "",
+      });
+    }
   };
 
   const sortTable = () => {
@@ -128,33 +162,38 @@ export default function Home() {
       </Link>
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Добавить задачу</h2>
-        <input
+        <Input
           className={styles.form__input}
           type="text"
           name="title"
           placeholder="Название задачи"
-          required
           minLength={3}
           maxLength={25}
           value={form.title}
           onChange={handleInputChange}
+          variant="underlined"
+          isInvalid={formError.title}
+          errorMessage="Длина должна быть не менее 3 и не более 25 символов"
         />
-        <input
+        <Input
           className={styles.form__input}
           type="email"
           placeholder="Email"
-          required
           name="email"
           value={form.email}
           onChange={handleInputChange}
+          isInvalid={formError.email}
+          variant="underlined"
+          errorMessage="Введите email"
         />
-        <input
+        <Input
           className={styles.form__input}
           type="text"
           placeholder="Текст задачи"
           name="body"
           value={form.body}
           onChange={handleInputChange}
+          variant="underlined"
         />
         <button type="submit" className={styles.button}>
           Добавить
