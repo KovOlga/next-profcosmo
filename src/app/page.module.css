@@ -11,11 +11,19 @@
 }
 
 .table {
-  display: grid;
-  grid-template-columns: repeat(6, 150px);
-  grid-template-rows: repeat(4, auto);
-  row-gap: 20px;
-  column-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.table__header {
+  width: 150px;
+}
+
+.table__headers {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .table__body {
@@ -24,12 +32,44 @@
   gap: 15px;
 }
 
+@media (max-width: 1000px) {
+  .table {
+    display: flex;
+    flex-direction: row;
+  }
+  .table__headers {
+    flex-direction: column;
+  }
+  .table__header {
+    width: 100px;
+  }
+  .table__body {
+    flex-direction: row;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .table__header {
+    width: auto;
+  }
+  .table__body {
+    gap: 0px;
+  }
+}
+
 .form {
   width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 500px) {
+  .form {
+    width: 100%;
+  }
 }
 
 .form__input {
@@ -45,6 +85,14 @@
   align-items: center;
   width: 700px;
   gap: 15px;
+}
+
+@media (max-width: 800px) {
+  .search {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
 }
 
 .button {

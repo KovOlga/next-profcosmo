@@ -189,9 +189,15 @@ export default function Home() {
       </Button>
       {todosArr && (
         <div className={styles.table}>
-          {tableHeaders.map((header) => {
-            return <p key={header}>{header}</p>;
-          })}
+          <div className={styles.table__headers}>
+            {tableHeaders.map((header) => {
+              return (
+                <p className={styles.table__header} key={header}>
+                  {header}
+                </p>
+              );
+            })}
+          </div>
           <ul className={styles.table__body}>
             {visibleTodos.map((todo) => {
               return <TableRow key={todo.uniqueId} item={todo} role={role} />;
