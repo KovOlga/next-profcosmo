@@ -47,6 +47,7 @@
 .search {
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 700px;
   gap: 15px;
 }

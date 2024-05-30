@@ -90,7 +90,7 @@ export default function Home() {
     setToDos(sortedToDos);
   };
 
-  const filterTable = (selectValue: string) => {
+  const filterTable = () => {
     let filteredArr = [...todosArr];
     if (searchValue && selectValue) {
       filteredArr = filteredArr.filter((todo) => {
@@ -105,12 +105,7 @@ export default function Home() {
     setToDos(filteredArr);
   };
 
-  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectValue(e.target.value);
-    filterTable(e.target.value);
-  };
-
-  const onSearchChange = useCallback((value: string) => {
+  const onInputSearchChange = useCallback((value: string) => {
     if (value) {
       setsearchValue(value);
       setCurrentPage(1);
@@ -120,7 +115,6 @@ export default function Home() {
   }, []);
 
   const onClear = useCallback(() => {
-    setSelectValue("");
     setToDos(todosArr);
     setsearchValue("");
     setCurrentPage(1);
@@ -172,7 +166,7 @@ export default function Home() {
           placeholder="Введите и выберете столбец поиска"
           value={searchValue}
           onClear={() => onClear()}
-          onValueChange={onSearchChange}
+          onValueChange={onInputSearchChange}
         />
         <Select
           color="success"
@@ -180,11 +174,14 @@ export default function Home() {
           label="Search Column"
           placeholder="По каком столбцу искать"
           selectedKeys={[selectValue]}
-          onChange={handleSelectionChange}
+          onChange={(e) => setSelectValue(e.target.value)}
           defaultSelectedKeys={["title"]}
         >
           {(animal) => <SelectItem key={animal.key}>{animal.label}</SelectItem>}
         </Select>
+        <Button color="success" onPress={() => filterTable()}>
+          Искать
+        </Button>
       </div>
       <Button color="success" size="md" onPress={() => sortTable()}>
         Сортировать по id
