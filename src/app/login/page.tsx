@@ -3,14 +3,17 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import { setCookie } from "../../utils/actions";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import { Roles } from "@/types/data";
+import { registerRole } from "@/lib/features/todos/todosSlice";
 
 const regexp = /^[0-9]+$/gm;
 
 export default function LoginPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
   const users = useAppSelector((state: RootState) => state.todos.users);
 
   const [error, setError] = useState(false);
@@ -60,9 +63,9 @@ export default function LoginPage() {
     event.preventDefault();
     if (verifyUserPass()) {
       if (form.email.includes(Roles.USER)) {
-        localStorage.setItem("role", Roles.USER);
+        dispatch(registerRole("user"));
       } else {
-        localStorage.setItem("role", Roles.ADMIN);
+        dispatch(registerRole("admin"));
       }
       setCookie();
       router.replace("/");

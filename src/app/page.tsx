@@ -34,6 +34,7 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
+  const role = useAppSelector((state: RootState) => state.todos.role);
   const rowsPerPage = 3;
   const [pages, setPages] = useState<number>(
     Math.ceil(todosArr.length / rowsPerPage)
@@ -192,11 +193,11 @@ export default function Home() {
             {tableHeaders.map((header) => {
               return <p key={header}>{header}</p>;
             })}
-            <div className={styles.table__body}>
+            <ul className={styles.table__body}>
               {visibleTodos.map((todo) => {
-                return <TableRow key={todo.uniqueId} item={todo} />;
+                return <TableRow key={todo.uniqueId} item={todo} role={role} />;
               })}
-            </div>
+            </ul>
           </div>
         </div>
       )}

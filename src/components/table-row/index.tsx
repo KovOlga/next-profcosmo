@@ -5,10 +5,12 @@ import ToggableBtn from "../toggable-btn";
 import styles from "./styles.module.scss";
 import { useAppDispatch } from "@/lib/hooks";
 import { updateTodo } from "@/lib/features/todos/todosSlice";
+
 interface TableRowProps {
   item: IToDoItem;
+  role: string | null;
 }
-const TableRow: FC<TableRowProps> = ({ item }) => {
+const TableRow: FC<TableRowProps> = ({ item, role }) => {
   const dispatch = useAppDispatch();
   const [isEditState, setIsEditState] = useState(true);
   const [textarea, setTextarea] = useState(item.body);
@@ -26,8 +28,6 @@ const TableRow: FC<TableRowProps> = ({ item }) => {
       })
     );
   };
-
-  const role = localStorage.getItem("role");
 
   return (
     <li className={styles.item}>
@@ -60,7 +60,7 @@ const TableRow: FC<TableRowProps> = ({ item }) => {
         )}
       </p>
       <p>{item.email}</p>
-      {role === Roles.ADMIN && (
+      {role && role === Roles.ADMIN && (
         <ToggableBtn
           isEditState={isEditState}
           setIsEditState={setIsEditState}

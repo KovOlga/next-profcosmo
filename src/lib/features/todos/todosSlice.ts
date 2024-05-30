@@ -6,11 +6,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface IAuthState {
   todos: IToDoItem[];
   users: IUser[];
+  role: string | null;
 }
 
 const initialState: IAuthState = {
   todos: mockTodos,
   users: mockUsers,
+  role: null,
 };
 
 export const todosSlice = createSlice({
@@ -37,8 +39,11 @@ export const todosSlice = createSlice({
         return todo;
       });
     },
+    registerRole: (state, action: PayloadAction<string>) => {
+      state.role = action.payload;
+    },
   },
 });
 
-export const { logout, addTodo, updateTodo } = todosSlice.actions;
+export const { logout, addTodo, updateTodo, registerRole } = todosSlice.actions;
 export const todosReducer = todosSlice.reducer;
