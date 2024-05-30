@@ -3,9 +3,12 @@ import { useEffect } from "react";
 import { deleteCookie } from "../../utils/actions";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
+import { registerRole } from "@/lib/features/todos/todosSlice";
 
 export default function LogoutPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     router.push("/logout");
@@ -13,6 +16,7 @@ export default function LogoutPage() {
 
   const handleLogout = () => {
     deleteCookie();
+    dispatch(registerRole(null));
     router.replace("/login");
   };
   return (

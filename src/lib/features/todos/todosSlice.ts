@@ -19,9 +19,6 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    logout: () => {
-      return initialState;
-    },
     addTodo: (state, action: PayloadAction<any>) => {
       const newTodo: IToDoItem = {
         ...action.payload,
@@ -29,7 +26,7 @@ export const todosSlice = createSlice({
         uniqueId: nanoid(),
         id: state.todos.length + 1,
       };
-      state.todos.unshift(newTodo);
+      state.todos.push(newTodo);
     },
     updateTodo: (state, action: PayloadAction<IToDoItem>) => {
       state.todos = state.todos.map((todo) => {
@@ -39,11 +36,11 @@ export const todosSlice = createSlice({
         return todo;
       });
     },
-    registerRole: (state, action: PayloadAction<string>) => {
+    registerRole: (state, action: PayloadAction<string | null>) => {
       state.role = action.payload;
     },
   },
 });
 
-export const { logout, addTodo, updateTodo, registerRole } = todosSlice.actions;
+export const { addTodo, updateTodo, registerRole } = todosSlice.actions;
 export const todosReducer = todosSlice.reducer;
