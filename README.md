@@ -8,8 +8,8 @@
 
 ## Главная страница
 
-<img src="./public/login.jpg" width=540px>
-<img src="./public/home.jpg" width=540px>
+<img src="./public/login.jpg" width=600px>
+<img src="./public/home.jpg" width=600px>
 
 ## Возможности:
 
