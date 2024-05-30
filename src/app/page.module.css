@@ -6,10 +6,6 @@
   padding: 20px;
 }
 
-.link {
-  align-self: flex-end;
-}
-
 .table {
   display: flex;
   flex-direction: column;

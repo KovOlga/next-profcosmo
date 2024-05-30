@@ -123,8 +123,8 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <Link href="/logout" className={styles.link}>
-        <button className={styles.button}>Logout</button>
+      <Link href="/logout">
+        <button className={styles.button}>Выйти</button>
       </Link>
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Добавить задачу</h2>
