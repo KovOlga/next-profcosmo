@@ -1,15 +1,8 @@
 "use client";
 import styles from "./page.module.css";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
-import {
-  ChangeEvent,
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { addTodo } from "@/lib/features/todos/todosSlice";
+import { useCallback, useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -21,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IToDoItem } from "@/types/data";
 import TableRow from "@/components/table-row";
+import AddTodoForm from "@/components/add-todo-form";
 
 const columnsToSearch = [
   { key: "title", label: "Название" },
@@ -32,7 +26,6 @@ const tableHeaders = ["id", "Название", "Текст", "Статус", "e
 
 export default function Home() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const todosArr = useAppSelector((state: RootState) => state.todos.todos);
   const role = useAppSelector((state: RootState) => state.todos.role);
   const rowsPerPage = 3;
@@ -40,15 +33,6 @@ export default function Home() {
     Math.ceil(todosArr.length / rowsPerPage)
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [form, setForm] = useState({
-    title: "",
-    email: "",
-    body: "",
-  });
-  const [formError, setFormError] = useState({
-    title: false,
-    email: false,
-  });
 
   const [sortAscDesc, setSortAscDesc] = useState<boolean>(false);
   const [selectValue, setSelectValue] = useState("");
@@ -73,45 +57,6 @@ export default function Home() {
   useEffect(() => {
     setToDos(todosArr);
   }, [todosArr]);
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.validity.valid && e.target.name === "title") {
-      setFormError((prev) => {
-        return { ...prev, title: true };
-      });
-    } else if (!e.target.validity.valid && e.target.name === "email") {
-      setFormError((prev) => {
-        return { ...prev, email: true };
-      });
-    } else {
-      setFormError((prev) => {
-        return { ...prev, title: false, email: false };
-      });
-    }
-    setForm((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
-
-  const handleSubmit = (event: SyntheticEvent) => {
-    event.preventDefault();
-    if (form.title === "") {
-      setFormError((prev) => {
-        return { ...prev, title: true };
-      });
-    } else if (form.email === "") {
-      setFormError((prev) => {
-        return { ...prev, email: true };
-      });
-    } else {
-      dispatch(addTodo(form));
-      setForm({
-        title: "",
-        email: "",
-        body: "",
-      });
-    }
-  };
 
   const sortTable = () => {
     setSortAscDesc(!sortAscDesc);
@@ -160,45 +105,7 @@ export default function Home() {
       <Link href="/logout">
         <button className={styles.button}>Выйти</button>
       </Link>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <h2>Добавить задачу</h2>
-        <Input
-          className={styles.form__input}
-          type="text"
-          name="title"
-          placeholder="Название задачи"
-          minLength={3}
-          maxLength={25}
-          value={form.title}
-          onChange={handleInputChange}
-          variant="underlined"
-          isInvalid={formError.title}
-          errorMessage="Длина должна быть не менее 3 и не более 25 символов"
-        />
-        <Input
-          className={styles.form__input}
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={form.email}
-          onChange={handleInputChange}
-          isInvalid={formError.email}
-          variant="underlined"
-          errorMessage="Введите email"
-        />
-        <Input
-          className={styles.form__input}
-          type="text"
-          placeholder="Текст задачи"
-          name="body"
-          value={form.body}
-          onChange={handleInputChange}
-          variant="underlined"
-        />
-        <button type="submit" className={styles.button}>
-          Добавить
-        </button>
-      </form>
+      <AddTodoForm />
       <div className={styles.search}>
         <Input
           label="Search Input"
