@@ -59,7 +59,7 @@ const AddTodoForm: FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-2/5 flex-col items-center gap-y-2.5"
+      className="flex w-full flex-col items-center gap-y-2.5 sm:w-2/5"
     >
       <h2>Добавить задачу</h2>
       <Input

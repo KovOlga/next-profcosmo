@@ -77,7 +77,7 @@ export default function LoginPage() {
     <main className="mt-16 flex flex-col items-center">
       <form
         onSubmit={handleSubmit}
-        className="flex w-96 flex-col items-center gap-2"
+        className="flex w-full flex-col items-center gap-2 sm:w-96"
       >
         <h2>Авторизуйтесь</h2>
         <input

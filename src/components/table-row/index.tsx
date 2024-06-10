@@ -2,7 +2,6 @@ import { Checkbox } from "@nextui-org/react";
 import { FC, useState } from "react";
 import { IToDoItem, Roles, ToDoStatus } from "@/types/data";
 import ToggableBtn from "../toggable-btn";
-import styles from "./styles.module.scss";
 import { useAppDispatch } from "@/lib/hooks";
 import { updateTodo } from "@/lib/features/todos/todosSlice";
 
@@ -30,7 +29,9 @@ const TableRow: FC<TableRowProps> = ({ item, role }) => {
   };
 
   return (
-    <li className="grid grid-cols-6 grid-rows-1 gap-2.5">
+    <li
+      className={`flex flex-col gap-2.5 md:grid md:grid-rows-1 ${role === Roles.ADMIN ? "grid-cols-6" : "grid-cols-5"}`}
+    >
       <p>{item.id}</p>
       <p>{item.title}</p>
       {isEditState ? (

@@ -1,5 +1,4 @@
 "use client";
-import styles from "./page.module.css";
 import { useAppSelector } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import { useCallback, useEffect, useState } from "react";
@@ -12,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IToDoItem } from "@/types/data";
+import { IToDoItem, Roles } from "@/types/data";
 import TableRow from "@/components/table-row";
 import AddTodoForm from "@/components/add-todo-form";
 
@@ -108,7 +107,7 @@ export default function Home() {
         </button>
       </Link>
       <AddTodoForm />
-      <div className="flex w-3/5 items-center gap-3">
+      <div className="flex w-full flex-col items-start gap-3 sm:w-3/5 md:flex-row md:items-center">
         <Input
           label="Search Input"
           isClearable
@@ -136,17 +135,19 @@ export default function Home() {
         Сортировать по id
       </Button>
       {todosArr && (
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-3">
+        <div className="flex flex-row gap-5 md:flex-col">
+          <div
+            className={`flex flex-col gap-2.5 md:grid md:grid-rows-1 ${role === Roles.ADMIN ? "grid-cols-6" : "grid-cols-5"}`}
+          >
             {tableHeaders.map((header) => {
               return (
-                <p className="w-36" key={header}>
+                <p className="w-24 sm:w-36 md:w-auto" key={header}>
                   {header}
                 </p>
               );
             })}
           </div>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-row gap-0 sm:gap-3 md:flex-col md:gap-7">
             {visibleTodos.map((todo) => {
               return <TableRow key={todo.uniqueId} item={todo} role={role} />;
             })}
