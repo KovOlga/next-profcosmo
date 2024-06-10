@@ -74,11 +74,14 @@ export default function LoginPage() {
     }
   };
   return (
-    <main className={styles.main}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+    <main className="mt-16 flex flex-col items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="flex w-96 flex-col items-center gap-2"
+      >
         <h2>Авторизуйтесь</h2>
         <input
-          className={styles.form__input}
+          className="mt-3 w-full border border-solid border-teal-400 px-4 py-3"
           type="email"
           placeholder="Email"
           required
@@ -87,7 +90,7 @@ export default function LoginPage() {
           onChange={handleInputChange}
         />
         <input
-          className={styles.form__input}
+          className="mt-3 w-full border border-solid border-teal-400 px-4 py-3"
           type="text"
           name="password"
           placeholder="Password"
@@ -95,7 +98,10 @@ export default function LoginPage() {
           value={form.password}
           onChange={handleInputChange}
         />
-        <button type="submit" className={styles.form__button}>
+        <button
+          type="submit"
+          className="border border-solid border-teal-400 bg-none px-4 py-3 text-teal-400"
+        >
           Login
         </button>
         {error && <p>Пароль и email не совпадают или вы не зарегистрированы</p>}
