@@ -30,7 +30,7 @@ export default function Home() {
   const role = useAppSelector((state: RootState) => state.todos.role);
   const rowsPerPage = 3;
   const [pages, setPages] = useState<number>(
-    Math.ceil(todosArr.length / rowsPerPage)
+    Math.ceil(todosArr.length / rowsPerPage),
   );
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -101,12 +101,14 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={styles.main}>
+    <main className="flex flex-col items-start gap-6 p-5">
       <Link href="/logout">
-        <button className={styles.button}>Выйти</button>
+        <button className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300">
+          Выйти
+        </button>
       </Link>
       <AddTodoForm />
-      <div className={styles.search}>
+      <div className="flex w-3/5 items-center gap-3">
         <Input
           label="Search Input"
           isClearable
@@ -134,31 +136,31 @@ export default function Home() {
         Сортировать по id
       </Button>
       {todosArr && (
-        <div className={styles.table}>
-          <div className={styles.table__headers}>
+        <div className="flex flex-col gap-5">
+          <div className="flex gap-3">
             {tableHeaders.map((header) => {
               return (
-                <p className={styles.table__header} key={header}>
+                <p className="w-36" key={header}>
                   {header}
                 </p>
               );
             })}
           </div>
-          <ul className={styles.table__body}>
+          <ul className="flex flex-col gap-3">
             {visibleTodos.map((todo) => {
               return <TableRow key={todo.uniqueId} item={todo} role={role} />;
             })}
           </ul>
         </div>
       )}
-      <div className={styles.pagination}>
+      <div className="flex flex-col items-center gap-4 self-center">
         <Pagination
           total={pages}
           color="secondary"
           page={currentPage}
           onChange={setCurrentPage}
         />
-        <div className={styles.pagination__controls}>
+        <div className="flex gap-3">
           <Button
             color="secondary"
             onPress={() => {
@@ -171,7 +173,7 @@ export default function Home() {
             color="secondary"
             onPress={() =>
               setCurrentPage((prev) =>
-                prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev
+                prev < Math.ceil(todosArr.length / 3) ? prev + 1 : prev,
               )
             }
           >
