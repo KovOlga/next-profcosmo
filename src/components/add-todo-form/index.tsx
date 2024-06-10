@@ -57,10 +57,13 @@ const AddTodoForm: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-4/5">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-2/5 flex-col items-center gap-y-2.5"
+    >
       <h2>Добавить задачу</h2>
       <Input
-        className={styles.form__input}
+        className="mt-4 w-full px-0 py-2.5"
         type="text"
         name="title"
         placeholder="Название задачи"
@@ -73,7 +76,7 @@ const AddTodoForm: FC = () => {
         errorMessage="Длина должна быть не менее 3 и не более 25 символов"
       />
       <Input
-        className={styles.form__input}
+        className="mt-4 w-full px-0 py-2.5"
         type="email"
         placeholder="Email"
         name="email"
@@ -84,7 +87,7 @@ const AddTodoForm: FC = () => {
         errorMessage="Введите email"
       />
       <Input
-        className={styles.form__input}
+        className="mt-4 w-full px-0 py-2.5"
         type="text"
         placeholder="Текст задачи"
         name="body"
@@ -92,7 +95,10 @@ const AddTodoForm: FC = () => {
         onChange={handleInputChange}
         variant="underlined"
       />
-      <button type="submit" className={styles.button}>
+      <button
+        type="submit"
+        className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300"
+      >
         Добавить
       </button>
     </form>

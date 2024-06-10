@@ -15,7 +15,7 @@ const TableRow: FC<TableRowProps> = ({ item, role }) => {
   const [isEditState, setIsEditState] = useState(true);
   const [textarea, setTextarea] = useState(item.body);
   const [isSelected, setIsSelected] = useState(
-    item.status === ToDoStatus.DONE ? true : false
+    item.status === ToDoStatus.DONE ? true : false,
   );
 
   const handleSave = () => {
@@ -25,19 +25,19 @@ const TableRow: FC<TableRowProps> = ({ item, role }) => {
         ...item,
         body: textarea,
         status: isSelected ? ToDoStatus.DONE : ToDoStatus.NOTDONE,
-      })
+      }),
     );
   };
 
   return (
-    <li className={styles.item}>
+    <li className="grid grid-cols-6 grid-rows-1 gap-2.5">
       <p>{item.id}</p>
       <p>{item.title}</p>
       {isEditState ? (
         <p>{textarea}</p>
       ) : (
         <textarea
-          className={styles.item__textarea}
+          className="resize-none"
           value={textarea}
           onChange={(e) => setTextarea(e.target.value)}
         ></textarea>

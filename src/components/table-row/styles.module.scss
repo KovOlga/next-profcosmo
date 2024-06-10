@@ -1,18 +1,7 @@
-.item {
-  display: grid;
-  grid-template-columns: repeat(6, 150px);
-  grid-template-rows: auto;
-  column-gap: 10px;
-}
-
 @media (max-width: 1000px) {
   .item {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-}
-
-.item__textarea {
-  resize: none;
 }

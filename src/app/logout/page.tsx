@@ -1,7 +1,6 @@
 "use client";
 import { useEffect } from "react";
 import { deleteCookie } from "../../utils/actions";
-import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";
 import { registerRole } from "@/lib/features/todos/todosSlice";
@@ -20,9 +19,13 @@ export default function LogoutPage() {
     router.replace("/login");
   };
   return (
-    <main className={styles.main}>
+    <main className="mt-16 flex flex-col items-center gap-5">
       <h2>Вы уверены, что хотите разлогиниться?</h2>
-      <button type="button" onClick={handleLogout} className={styles.button}>
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="border border-solid border-teal-400 bg-none px-4 py-3 text-teal-400"
+      >
         Да!
       </button>
     </main>
