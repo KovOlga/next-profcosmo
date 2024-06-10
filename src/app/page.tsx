@@ -102,7 +102,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-start gap-6 p-5">
       <Link href="/logout">
-        <button className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300">
+        <button className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300 opacity-100 transition-opacity hover:opacity-70">
           Выйти
         </button>
       </Link>

@@ -97,7 +97,7 @@ const AddTodoForm: FC = () => {
       />
       <button
         type="submit"
-        className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300"
+        className="border border-emerald-200 bg-none px-2.5 py-3.5 text-teal-300 opacity-100 transition-opacity hover:opacity-70"
       >
         Добавить
       </button>
