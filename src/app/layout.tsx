@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.scss";
+import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import { NextUIProvider } from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: "Profcosmo",
@@ -14,8 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="dark bg-background">
-        <StoreProvider>{children}</StoreProvider>
+      <body className="bg-background dark">
+        <NextUIProvider>
+          <StoreProvider>{children}</StoreProvider>
+        </NextUIProvider>
       </body>
     </html>
   );

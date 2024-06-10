@@ -57,7 +57,7 @@ const AddTodoForm: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} className="w-4/5">
       <h2>Добавить задачу</h2>
       <Input
         className={styles.form__input}
